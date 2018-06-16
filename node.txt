@@ -1,0 +1,24 @@
+In all other languages like c++ and java they are made by a bunch of many different files thatg come together to make an application
+
+But JS was initially made just a scripting language for the browsers which was never given such support
+
+But with the expansion of JS into the backend the need arises 
+_________________________________________________________
+Each file in node is its own module
+
+The module variable gives access to the current module defination in a file
+The module.exports variiable determines the export from the current module
+The require function is used to import a module
+
+Node modules can be of 3 types
+
+File Based Modules
+The modules are defined in a file and is then used in application
+
+Core Modules
+These are already a part of the core node
+The developers made this intentionally small so that the node can be overall small and can be used by other developers by defining in their own functions
+eg. path, file system, OS, util
+
+
+
