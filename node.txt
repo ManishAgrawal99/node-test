@@ -24,5 +24,138 @@ ________________________________________________________
 
 Check for the creation of a simple node module in my git node repository
 
+________________________________________________________
 
+Salient features of JS
+
+1.First class Functions
+  A function can be treated as any other variable
+  Hence they can be passed as fuction parameters for any other function call
+  These are then used for callbacks in node js
+
+2.Closures
+  When a function is defined inside another function the inner function automatically gets the access to the variables of the outer function
+This feature is effectively used for the callbacks
+
+
+In node JS everything runs as a single threaded event loop
+So, any computation or functions that are to be done after the I/O bound completions are passed in as callbacks
+Once the i/o are complete it will put the callbacks in request queue
+
+
+_________________________________________________________
+
+SOME NETWORKING TERMS
+
+HTTP
+URL
+JSON
+XML
+SOAP: Allows comm. b/w distributed entities within their network
+REST: Represntational state transfer
+
+GET,PUT,POST,DELETE,HEAD,TRACE,OPTIONS,CONNECT METHODS
+
+________________________________________________________
+
+Client Server Communication
+
+Network operations may cause unexpected delays
+Applications must be written in a way that the client side functions even in the presence of random delays and errors
+Data is not instantaneously available
+
+
+
+EXAMPLE HTTP REQUEST MESSAGE
+
+GET /index.html HTTP/1.1
+host:localhost:3000
+connection:keep-alive
+user-agent:Mozilla/5.0..
+accept-encoding:gzip,deflate,sdch
+
+blank data
+
+
+
+
+HTTP RESPONSE MESSAGE
+
+HTTP/1.1 200 OK
+connection:keep-alive
+content-Type:text/html
+Date: Sun, 21 Feb 2016 06:01:43 GMT
+transfer-encoding:chunked
+
+
+
+HTTP RESPONSE CODES
+
+
+200	OK
+201	CREATED
+301	MOVED PERMANENTLY
+304	NOT MODIFIED
+400	BAD REQUEST
+401	UNAUTHORIZED
+403	FORBIDDEN
+404	NOT FOUND
+422	UNPROCESSABLE ENTRY
+500	INTERNAL SERVER ERROR
+505	HTTP VERSION NOT SUPPORTED
+
+Server may send back data encoded in specific format
+XML
+JSON
+
+________________________________________________________________
+
+
+BUILDING SERVERS WITH NODE
+
+NODE HTTP MODULE
+It is a core networking module supporting a high performance foundation for HTTP stack
+In order to use the HTTP module we need to include the HTTP module as
+const http = require('http');
+Once it is included it supports createServer method as
+const server = http.createServer(function(req,res){...});
+there is a function given in the parameter which acts as a callback function for the createServer module
+This function has 2 parameters req & res
+req is request message received from the client side
+res is the response message generated from the above request
+Now to start the server we use server.listen(port,...) and supply the port number and host name and this will start our server
+
+
+Incoming request message is built on the req parameter and the data is available through parameters like
+req.headers, req.body...
+
+response message is generated on second parameter res
+res.setHeader("content-Type","text/html");
+res.statusCode=200;
+res.write("Hello World!!");
+res.end("<html><body><h1>Hello World</h1></body></html>");
+
+
+Node Path Modules
+
+It helps us know the location of the file and then lets us examine if it exists and more details about the file
+like extension
+
+Using path module by adding
+const path = require('path');
+
+Some methods
+path.resolve('./public'+fileUrl);
+path.extname(filePath);//Examins the extension name
+
+
+
+Node File System Modules
+
+Using
+const fs=require('fs');
+
+some methods
+fs.exist(filePath,function(exists){.........});
+fs.createReadStream(filePath).pipe(res);
 
