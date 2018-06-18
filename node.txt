@@ -20,5 +20,9 @@ These are already a part of the core node
 The developers made this intentionally small so that the node can be overall small and can be used by other developers by defining in their own functions
 eg. path, file system, OS, util
 
+________________________________________________________
+
+Check for the creation of a simple node module in my git node repository
+
 
 
