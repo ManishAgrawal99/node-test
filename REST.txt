@@ -1,0 +1,164 @@
+REST
+
+Representational state transfer
+
+_________________________________________________________
+Web Services
+
+A system designed to support interoperability of systems connected over a network
+Service Oriented Architecture
+It gives a standardized way of integrating web based applications using open standards over the internet
+
+
+2 Common approaches for supporting web services
+
+SOAP
+Simple Object Access Protocol
+It uses web services Description Language
+Messages are exchanged b/w the 2 end points using XML
+
+REST
+It uses web standards
+Exchange of data is through XML or JSON
+Simpler compared to SOAP, WSDL
+Client server communication is given through rest where server supports REST API and client can invoke REST API end points to obtain info or upload info.
+
+
+_________________________________________________________
+
+4 BASIC DESIGN PRINCIPLES
+
+REST is built upon HTTP protocol
+It makes use of all the HTTP methods we have already used
+
+REST is designed to be stateless
+Server does not hold any state once the communication is completed
+When a server receives a request it gives a reply and then it does not remember anything about the client
+
+It provides resources by exposing a directory structure like URLs 
+
+Format of data exchange is XML or JSON or both can be supported using REST
+
+_________________________________________________________
+It makes use of all the HTTP verb methods like
+GET	:return aresource
+PUT	:update an existing resource
+POST	:create a resource
+DELETE	:delete an existing resource
+
+________________________________________________________
+
+REST Concepts
+
+NOUNS	(Resources)
+Unconstrained
+eg. http://www.xyz.abc/def/123
+
+VERBS
+constrained
+eg. GET PUT POST DELETE
+
+Representations (The way the messages are encoded)
+constrained
+eg. XML JSON
+
+________________________________________________________
+
+RESOURCES (nouns)
+
+REST uses URIs to identify the resources
+
+eg.
+http://www.conFusion.food/dishes/
+http://www.conFusion.food/dishes/123
+http://www.conFusion.food/promotions/
+http://www.conFusion.food/leadership/
+http://www.conFusion.food/leadership/456
+
+As we traverse from more generic to more specific, we are navigating the data
+It is a directory structure to identify resources
+
+
+_______________________________________________________
+VERBS
+
+Represnts the actions to be performed on resources
+corresponding to the CRUD operations
+
+GET <-> READ
+POST <-> CREATE
+PUT <-> UPDATE
+DELETE <-> DELETE
+
+_____________________________________________________
+
+The server must be stateless
+Every request is a new request from the client
+It will not alter or modify the previous requests made by the client
+
+Client must track its own state
+using cookies or client side database
+Client side MVCs help us in this
+
+
+________________________________________________________
+
+EXPRESS ROUTER
+
+Here we see the support that the express gives for the REST API on various matters like app.all app.get app.put ,app.post etc.
+
+Here we see how these methods can be used to construct REST API server
+
+Within the EXPRESS various application groups can be defined using the app. various methods
+
+eg.
+app.all('/dishes',function(req,res,next){.....});
+app.get('/dishes',function(req,res,next){.....});
+app.post('/dishes',function(req,res,next){.....});
+
+_________________________________________________________
+
+Routes with Parameters
+
+app.end('/dishes/:dishId',(req,res,next)=>{
+res.end('Will send details of the dish:'+req.params.dishId+'to you!'});
+
+When issuing a put or post method we often enclose the data in the body of the message that is sent to the server
+
+So we need a method to retrieve the data from the message body
+This is where the body parser middleware for EXPRESS comes in
+
+It helps to parse the body of the message
+USE:
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());//parse the JSON in the body
+For this we will have to install the body-parser node module
+The method parses the body of the message and populates the req.body property
+
+________________________________________________________
+
+When there are various different end points we may want to divide our application into various different modules
+
+Express Router creates a mini-Express application
+var dishRouter =express.Router();
+dishRouter.use(bodyParser.json());
+
+dishRouter.route('/')
+.all(.......);
+.get(....);
+.......
+............
+
+
+and then in each module we can deal with one particular REST API endpoint in more detail
+
+
+
+});
+
+
+__________________________________________________________
+While converting the given express file into a REST
+
+first use the npm install body-parser --save
+
