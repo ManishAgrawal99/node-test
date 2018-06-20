@@ -1,0 +1,47 @@
+EXPRESS
+
+Fast unopinionated minimalistic web framework for Node.JS
+It provides a robust set o features
+Many third party middleware available to extend the functionality
+
+____________________________________________________________
+
+Installing Express
+
+In the project folder
+npm install express --save
+
+
+
+Express Middleware
+
+Middlewares provide a lot of plugin functionalities that can be used to enhance Express application
+eg. 
+Morgan
+It allows to log information to the screen about the requests that come into the server
+
+var morgan = require('morgan');
+app.use(morgan('dev'));
+
+
+BodyParser
+Allows to parse the body of the incoming HTTP request message and extract information of use within the EXPRESS application
+
+
+
+
+Serving Static web resources with express
+app.use(express.static(_dirName+'/public'));
+
+
+
+A brief tour of Node Module
+
+Examine package.json file
+Semantic versioning
+<major version>.<minor version>.<Patch>
+
+When installing express we can install it in 3 ways
+Exact: npm install express@4.0.0
+Patch acceptable: npm install express@"~4.0.0"
+Minor version acceptable: npm install express@"^4.0.0" 

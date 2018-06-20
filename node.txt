@@ -159,3 +159,8 @@ some methods
 fs.exist(filePath,function(exists){.........});
 fs.createReadStream(filePath).pipe(res);
 
+
+_______________________________________________________
+
+
+
