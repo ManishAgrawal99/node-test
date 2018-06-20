@@ -18,6 +18,7 @@ Express Middleware
 Middlewares provide a lot of plugin functionalities that can be used to enhance Express application
 eg. 
 Morgan
+npm install morgan --save
 It allows to log information to the screen about the requests that come into the server
 
 var morgan = require('morgan');
@@ -44,4 +45,7 @@ Semantic versioning
 When installing express we can install it in 3 ways
 Exact: npm install express@4.0.0
 Patch acceptable: npm install express@"~4.0.0"
-Minor version acceptable: npm install express@"^4.0.0" 
+Minor version acceptable: npm install express@"^4.0.0"
+
+
+Dependencies in the package.json file contains the modules on which this node project is depended on
