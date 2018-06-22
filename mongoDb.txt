@@ -1,0 +1,132 @@
+To set the mongo server to use a specific directory to store databases use
+Do this by running cmd as administrator
+
+"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath="c:\data\db"
+
+The first location specified is the loction where mongo is installed and the second is where we want the DB
+
+In another cmd prompt type mongo to connect to the mongo server made on the other terminal at port 27017  
+
+________________________________________________________
+
+Databases are used to store structured information
+It supports various operations on the data
+query
+insert
+update
+delete
+
+_____________________________________________________
+
+
+SQL based relational databases have been very popular means of storing data
+
+NoSQL databases are increasingly becoming popular to address the challenges with SQL 
+
+With New jind of applications coming online it has increased in demand the features that are not available with the SQL
+
+________________________________________________________
+
+NoSQL into 4 types
+Document DB		MongoDB
+key value DB		Redis
+column family DB	Cassandra
+Graph DB		Neo4J
+
+A Document is a self contained unit of information and can be in many different formats
+like JSON
+eg. {
+	"name":"uthapizza"
+	"description":"A unique combination...."	
+	}
+
+A Document can be organized into collections
+So a collection is a group of documents
+
+A DB is a set of collections
+
+_______________________________________________________
+
+Why NoSQL
+
+Scalability
+-Availability
+-Consistency
+-Partition Tolerance
+
+SQL finds it difficult to maintain both Availability and Consistency
+
+
+Ease Of Deployment
+No object relation mapping is required
+
+In MongoDb a document is a JSON file
+Infact MongoDb stores the document in more compact form called BSON(Binary JSON)
+
+__________________________________________________________
+
+MongoDb object Id
+
+Every document in mongo must have an "_id" field that is unique and acts as primary key
+When a document is created a default ObjectId is created in the form of a long string
+It is a 12 byte field
+Timestamp    MachineId    proc Id   Increment
+   4		  3	     2		3
+
+timestamp returns the date in ISO format	
+
+_______________________________________________________
+
+After the connection is established, these are some common commands
+
+db	Shows the current DB
+----------------------------
+
+Now we have to create a new database for our node application to connect
+SO we type
+
+use conFusion	Creates a DB by name conFusion if it does not exist
+--------------
+
+
+db.help();	gives a set of commands that can be used
+----------
+
+Now to create a collection do
+db.dishes
+
+If the collection exists then it will be accessed else it will be created
+
+
+db.dishes.insert({"name":"Uthapizza", "description":"Test"});
+will create a new record in the collection
+
+db.dishes.find()
+This will show all the results in the collection
+
+db.dishes.find().pretty()
+will give the same result but in arranged manner
+
+
+Typing exit will bring out of the mongo 
+________________________________________________________
+
+
+Using MongoDb from within the node application
+
+Node MongoDb Driver
+
+It provides a high level API for a node application to interact with the mongoDb server
+
+To install this driver use
+npm install mongodb --save
+
+This driver supports several operations that can be performed from a Node application like
+Connecting to mongoDb
+Inserting, deleting, updating and querying documents
+
+It supports both callback based and promise based interactions
+
+
+also add the assert node module
+npm install assert --save

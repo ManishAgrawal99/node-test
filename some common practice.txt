@@ -1,0 +1,7 @@
+npm init
+
+setup the file
+
+open the package.json and add a script
+
+install the middleware as required
