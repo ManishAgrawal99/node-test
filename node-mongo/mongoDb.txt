@@ -126,3 +126,25 @@ Connecting to mongoDb
 Inserting, deleting, updating and querying documents
 
 It supports both callback based and promise based interactions
+
+_______________________________________________________
+
+Problems with nested callbacks in node
+
+As we can see in the node-mongo example 2, one opperation is called inside the callback  of the other which results into a pyramid like structure which can go on for very long in the case if there are many operations to be made
+But this can make the code very complex and uneasy to read
+
+One way to tacke this is to make named callback functions instead of defining it in there
+
+Or
+In order to tackle this, we have promises
+
+Promises
+--------
+
+A method that supports asynchronous computation
+So,
+if a number of works are to be done before one operation,
+it adds a proxy for the values that are unknown
+So a promise may result into resolve or reject
+
