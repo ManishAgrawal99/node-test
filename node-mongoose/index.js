@@ -13,23 +13,37 @@ connect.then((db) => {
     
     console.log('Connected correctly to server');
 
-    var newDish = Dishes({
+    Dishes.create({
         name: 'Uthappizza',
         description: 'test'
-    });
-
-    newDish.save()
+    })
         .then((dish) => {
             console.log("\nCreated the document:\n");
             console.log(dish);
             console.log("\n\n");
 
-            return Dishes.find({}).exec();
+            return Dishes.findByIdAndUpdate(dish._id,{
+                $set: { description: "Updated test"}
+            },{
+                new : true
+            })
+            .exec();
         })
-        .then((dishes) => {
+        .then((dish) => {
             console.log("\nFound the document:\n");
-            console.log(dishes);
+            console.log(dish);
             console.log("\n\n");
+            dish.comments.push({
+                rating: 5,
+                comment: "I am a genius",
+                author: "Tony Stark"
+            });
+
+            return dish.save();
+        })
+        .then((dish) =>{
+            console.log("\n\nTony Stark added a comment");
+            console.log(dish);
 
             //return db.collection('dishes').drop();
             return Dishes.remove({});
