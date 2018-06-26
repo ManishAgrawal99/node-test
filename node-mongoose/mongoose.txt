@@ -1,0 +1,75 @@
+
+Packages installed
+
+npm init
+
+Check the package.json of the example 
+open the package.json and add a script named start and give the attribute of "node index"
+
+npm install mongoose --save
+
+npm install bluebird --save
+
+------------------------------------------------------
+NOTE: It makes use of the node mongoDB driver
+_______________________________________________________
+While using the node mongo driver there was no specific structure for the documents
+But if we need to have a specific structure for the documents and enforce that structure then we need to make use of the mongoose node module
+
+It enables us to define a schema and a structure for our documents and strictly enforces that structure
+
+______________________________________________________
+
+MongoDB stores the data in the form of documents
+No structure is imposed on the documents
+Any document can be stored in any collection
+It relies on developers discipline to maintain the structure of the documents
+
+If we are particular that the collection will have a specified structure and all the specific set of fields
+then, the mongoDB does not impose it nor the node-mogo driver.
+
+This is where the mongoose node module comes in
+It imposes a standardized structure for the documents that are stored in a collection
+
+________________________________________________________
+
+Mongoose ODM
+
+Object Data Model
+Object Document Mapping
+Object Relational Mapping (ORM)
+
+It adds a structure to MongoDB documents through schema
+
+_______________________________________________________
+
+Mongoose Schema
+
+structure of the data to be stored
+Defines all the fields of your documents and their types
+-It can do validation
+
+Schema types
+String
+Number
+Date
+Buffer
+Boolean
+Mixed
+ObjectId
+Array
+
+Schemas can be nested to support subdocuments
+_________________________________________________________
+
+First we create a schema for the documents
+Then to use the schema we map it to mongoose model
+like
+var Dishes = mongoose.model('Dish', dishSchema);
+
+This will create a collection in the DB with the plural form of the name given in the ' ' 
+In the above example a collection by the name dishes will be made and will use the schema of type dishSchema that we previously made
+
+
+
+
