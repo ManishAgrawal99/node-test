@@ -1,7 +1,7 @@
 To set the mongo server to use a specific directory to store databases use
 Do this by running cmd as administrator
 
-"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath="c:\data\db"
+"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath="C:\STUDY\NODE JS\mongodb\data\db"
 
 The first location specified is the loction where mongo is installed and the second is where we want the DB
 
