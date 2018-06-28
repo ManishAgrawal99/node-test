@@ -27,5 +27,8 @@ mongoose-currency adds the support for currency data type
 
 ________________________________________________________
 
-
+Now to manage the subdocuments inside the modules,
+ie. the Comments
+we can use the entire code used in the Routers and edit them to support
+ /Comments and /Comments/CommentsId
 
