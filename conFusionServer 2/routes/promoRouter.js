@@ -1,5 +1,12 @@
+//When we use next(err) in this file, we are making the error to be handled
+// by the error handler in the app.js
+
 const express = require ('express');
 const bodyParser = require ('body-parser');
+const mongoose = require ('mongoose');
+
+//Importing the schema we created in the models folder
+const Promotions = require('../models/promotions');
 
 const promoRouter = express.Router();
 
@@ -9,18 +16,37 @@ promoRouter.route('/')
 
 
 //Setting up all the endpoints for the /promotions
-.all((req, res, next) =>{
-	res.statusCode = 200;
-	res.setHeader('Content-Type','text/plain');
-	next();
-})
-
 .get((req,res,next) =>{
-	res.end("will send all the promotions to you!");
+	//Here we are expecting to get all the promotions, so we need to find all the promotions in DB
+	Promotions.find({})
+	.then((promotions) =>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.json(promotions);
+	},
+	(err) =>{
+		next(err);
+	})
+	.catch((err) =>{
+		next(err);
+	})
 })
 
 .post((req,res,next) =>{
-	res.end('Will add the promo: ' + req.body.name +' with details: ' + req.body.description);
+	//It will take the document to be posted from the body of the request
+	Promotions.create(req.body)
+	.then((promotion) =>{
+		console.log('Promotion Created ', promotion);
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.json(promotion);
+	},
+	(err) =>{
+		next(err);
+	})
+	.catch((err) =>{
+		next(err);
+	})	
 })
 
 .put((req,res,next) =>{
@@ -29,7 +55,18 @@ promoRouter.route('/')
 })
 
 .delete((req,res,next) =>{
-	res.end("deleting all the promotions!");
+	Promotions.remove({})
+	.then((resp) =>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.json(resp);
+	},
+	(err) =>{
+		next(err);
+	})
+	.catch((err) =>{
+		next(err);
+	})
 });
 
 
@@ -39,7 +76,19 @@ promoRouter.route('/')
 promoRouter.route('/:promoId')
 
 .get((req,res,next) =>{
-	res.end("will send details of the promo: " + req.params.promoId + " to you!");
+	Promotions.findById(req.params.promoId)
+	.then((promo) =>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.json(promo);
+	},
+	(err) =>{
+		next(err);
+	})
+	.catch((err) =>{
+		next(err);
+	})	
+
 })
 
 .post((req,res,next) =>{
@@ -48,13 +97,31 @@ promoRouter.route('/:promoId')
 })
 
 .put((req,res,next) =>{
-	res.write('Updating the promo: '+req.params.promoId + '\n');
-	res.end('will update the promo :'+req.body.name + ' with details '+ req.body.description);
+	Promotions.findByIdAndUpdate(req.params.promoId,{
+		$set: req.body
+	}, {new: true})
+	.then((promo) =>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.json(promo);
+	},
+	(err) =>{
+		next(err);
+	})
+	.catch((err) =>{
+		next(err);
+	})
+
 })
 
-.delete((req,res,next) =>{
-	res.end("deleting the promo: "+req.params.promoId);
+.delete((req, res, next) => {
+    Promotions.findByIdAndRemove(req.params.promoId)
+    .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 });
-
 
 module.exports = promoRouter;
