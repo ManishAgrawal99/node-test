@@ -1,0 +1,157 @@
+
+Unsigned Cookies
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+Signed Cookies
+var cookieParser = require('cookie-parser');
+app.use(cookieParser('secret key'));
+
+Sessions
+var session = require('express-session');
+To use file-storage as a way to permanently store session info
+var FileStore = require('session-file-store')(session);
+
+app.use(session({
+name: 'session-id',		//Session name
+secret:'12345-67890-09876-54321'//Secret key
+saveUninitialized:false,
+resave: false,
+store: new FileStore()		//Storage type
+}));
+
+
+
+__________________________________________________
+Authentication in the previous example used adding the authorization field containing username and password for every request that client sends to the server side
+
+Cookies are another mechanism that expects the client to store some info on the client side and include the information explicitly in each outgoing request
+So rather than sending an ID and password each time the server may setup an explicit piece of info on the client side which will be included in each request
+
+Now if the server may want to keep a track of the client, the server may explicitly setup a session tracking mechanism.
+
+Cookies are small and cannot store a lot of info in there.
+It just include some small info in the header of the outgoing request from the client
+
+If we want a lot more information to be tracked about a client on server side, then express sessions enable us to do that
+
+_______________________________________________________
+
+
+
+COOKIES
+
+Small piece of data sent from a web server and stored on the client side
+
+Almost all the browsers have the capability of storing the cookies on the client side and including them automatically in the request
+
+Each subsequent request may include the cookie in the request header
+
+
+When a client sends a request to the server and the user is authenticated on the server using Basic authentication for example, then the server in return may set up a cookie
+
+Now to set up the cookie, the server in the response will include in the message a header with Set-Cookie header and the actual cookie in the header.
+
+Now every subsequent request will carry the cookie in the header
+When the server receives the request message, it is able to examine the cookie and know, who this request is coming from.It is able to recognize the client looking at the cookie information.
+This is how cookie is able to send authorization information
+
+The first time we send the Id and Pass by setting up the Auth header while the server sets up the cookie on clients side
+
+Cookies can also have an expiry date associated with them
+After that they will be invalid
+This is a way of setting up a time for which the authorization is valid 
+
+
+_________________________________________________________
+
+EXPRESS AND COOKIES
+
+Express uses a lot of middleware
+cookie-parser is used for this purpose
+It allows the server to setup a cookie in the response header
+eg. res.cookie(name, value, options)
+
+cookieParser is used as follows
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+It parses the incoming cookies and attaches them to request
+req.cookies.name
+
+Now in order to protect a cookies authenticity it can be signed by a secret key on the server side
+-Digital signature with key-Hash Message Authentication Code(HMAC)(verifiable)
+
+The middleware we use already supports the signed cookies
+ 
+We use a secret key as a parameter on cookie parser
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser('secret key'));
+
+Parsed signed cookies are available as req.signedCookies.name
+
+
+________________________________________________________
+Cookies are small in size and hence cannot store a lot of info in them
+They are just for the server to know, which client is sending the request
+In order to have a more elaborate info about the user we can use sessions
+
+________________________________________________________
+
+EXPRESS SESSIONS
+
+It is a combination of a cookie with session Id
+The server then stores any amount of data indexed by that session Id
+
+
+When a client sends a request over the server, then from within the cookie, the session Id is retrieved and that is used as an index into the server side to store and retrieve data
+
+By defaut the sessions are stored in memory on the server side
+So, if the server is restarted, the memory will be cleared and all the session info will be gone completely
+Hence, many servers use some permanent storage to keep track of all the sessions
+It can be done either by some file storage or in the DB itself, like the mongoDB in the case
+
+IT IS IMPORTANT THAT IF A SITE IS USING MULTIPLE DATABASES, THEN EVERY ONE OF THESE MUST BE ABLE TO ACCESS SESSION INFORMATION
+So, we need a distributed sessions tool on the server side to enable support to multiple replicated servers
+
+_________________________________________________________
+
+EXPRESS SESSION MIDDLE WARE
+
+var session = require('express-session');
+
+To use file-storage as a way to permanently store session info
+var FileStore = require('session-file-store')(session);
+
+app.use(session({
+name: 'session-id',		//Session name
+secret:'12345-67890-09876-54321'//Secret key
+saveUninitialized:false,
+resave: false,
+store: new FileStore()		//Storage type
+}));
+
+
+The info will be available as
+req.session
+ 
+
+
+Different properties of the sessions options object:
+– cookie: Options object for the session ID cookie. The default value is { path: '/', httpOnly: true, secure: false,
+maxAge: null }.
+– genid: Function to generate the session ID. Default is to use uuid
+– name:The name of the session ID cookie to set in the response (and read from in the request).
+– proxy: Trust the reverse proxy when setting secure cookies.
+– resave: If true forces a session to be saved back to store even if it was not modified in the request.
+– rolling: Forces a cookie to be set on every request.
+– saveUninitialized: If true it forces a newly created session without any modifications to be saved to the
+session store.
+– secret: It is a required option and is used for signing the session ID cookie.
+– store: Session store instance. Default is to use memory store.
+– unset: Controls the handling of session object in the store after it is unset. Either delete orkeep the session
+object. Default is to keep the session object
+
+
