@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -42,14 +44,22 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //We will be using signed cookie with the secret key as 12345-67890-09876-54321
-app.use(cookieParser('12345-67890-09876-54321'));
+//app.use(cookieParser('12345-67890-09876-54321'));
+//Setting up the session
+app.use(session({
+  name: 'session-id',
+  secret: '12345-67890-09876-54321',
+  saveUninitialized: false,
+  resave: false,
+  store: new FileStore()
+}));
 
 //This is added to provide authorization
 function auth(req, res, next){
-  console.log(req.signedCookies);
+  console.log(req.session);
 
   //user is a property we will setup in the signed cookie
-  if(!req.signedCookies.user){
+  if(!req.session.user){
     //It means that the user is not authorized yet
     var authHeader = req.headers.authorization;
   
@@ -73,8 +83,8 @@ function auth(req, res, next){
     if(username === 'admin' && password ==='password'){
       //If the id and pass are correct, we allow the user to pass through the next middleware
       //Since this is now an authorized user, we will setup a cookie here
-      res.cookie('user','admin',{signed: true});
-
+      //res.cookie('user','admin',{signed: true});
+      req.session.user = 'admin';
       next();
     }
     else{
@@ -85,7 +95,7 @@ function auth(req, res, next){
     }
   }
   else{
-    if(req.signedCookies.user === 'admin'){
+    if(req.session.user === 'admin'){
       next();
     }
     else{

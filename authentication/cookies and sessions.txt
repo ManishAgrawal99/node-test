@@ -8,6 +8,9 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser('secret key'));
 
 Sessions
+
+npm install express-session session-file-store --save
+
 var session = require('express-session');
 To use file-storage as a way to permanently store session info
 var FileStore = require('session-file-store')(session);
