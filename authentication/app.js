@@ -54,53 +54,32 @@ app.use(session({
   store: new FileStore()
 }));
 
+//Both are files present inside the routes
+//users is to handle login sign up and logout 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 //This is added to provide authorization
 function auth(req, res, next){
   console.log(req.session);
 
   //user is a property we will setup in the signed cookie
   if(!req.session.user){
-    //It means that the user is not authorized yet
-    var authHeader = req.headers.authorization;
-  
-    //If there is no authHeader means the client did not provide any authorization id and pass
-    if(! authHeader){
+    
+    //It means that the user is not authenticated, this will be managed in login/signup page
       var err = new Error('You are not authenticated !');
-      res.setHeader('WWW-Authenticate', 'Basic');
-      err.status=401;
+      err.status=403;
       return next(err);
     }
-
-    //Since the header is a string seperated by ' ' in b/w basic and id pass and we want the id pass so we take [1] ie the second part
-    //we give the id and pass a base64 encoding
-    //Now we again split the id and pass seperated by ':' after converting it to string
-    //So auth is now an array containing ID and Password
-    var auth = new Buffer(authHeader.split(' ')[1],'base64').toString().split(':');
-    var username = auth[0];
-    var password = auth[1];
-
-    //In this implementation, we use a fixed id and password
-    if(username === 'admin' && password ==='password'){
-      //If the id and pass are correct, we allow the user to pass through the next middleware
-      //Since this is now an authorized user, we will setup a cookie here
-      //res.cookie('user','admin',{signed: true});
-      req.session.user = 'admin';
-      next();
-    }
-    else{
-      var err = new Error('You are not authenticated !');
-      res.setHeader('WWW-Authenticate', 'Basic');
-      err.status=401;
-      return next(err);
-    }
-  }
+    
   else{
-    if(req.session.user === 'admin'){
+    //We set the user to 'authenticated' while logging in
+    if(req.session.user === 'authenticated'){
       next();
     }
     else{
       var err = new Error('You are not authenticated !');
-      err.status=401;
+      err.status=403;
       return next(err);
     }
   }
@@ -112,8 +91,6 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
 app.use('/leaders',leaderRouter);
