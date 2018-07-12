@@ -1,0 +1,87 @@
+
+npm install passport passport-local passport-local-mongoose --save
+_______________________________________________________
+We need to install the passport module
+
+Along with this, we need to install passport-local
+For authenticating a user with username and password  
+
+If we use mongoDB as the backend to store the user id and pass, we can use
+passport-local-mongoose
+(It provides an encrypted way of storing the password in our user model)
+The encryption is done by using hashing on the password that we use for registering users
+The hashed password is actually stored in the mongoDB data base
+So, when a user tries to authenticate, the password will be hashed and compared with the password in mongoDB database
+
+
+
+_______________________________________________________
+It is a middleware that supports various strategies for user authentication
+It also includes local strategy using username and password as well as third party authentication like
+OAuth or OAuth 2.0
+for using FB, Twitter, Google and so on
+
+JSON Web Tokens or Token based authentication is another way of authentication 
+
+Passports also support sessions
+
+______________________________________________________
+Use of passports
+
+Local strategy
+app.post('/login',passport.authenticate('local'),
+(req,res) =>{
+	//If the fn gets called, auth was successful
+	//'req.user contains the authenticated user'
+	res.redirect('/users/'+req.user.username);
+});
+
+
+Using passport-local
+passport.use(new LocalStrategy( function(username, password, done) {
+User.findOne({ username: username }, function (err, user) {
+if (err) { return done(err); }
+if (!user) { return done(null, false); }
+if (!user.verifyPassword(password)) { return done(null, false); }
+return done(null, user);
+});
+}
+));
+
+_______________________________________________________________
+When we define the user schema and the model
+we import the passport-local-mongoose
+This plugin automatically adds the username field and the cached password storage field using a salt value that it uses for doing the hashing
+
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema,
+passportLocalMongoose = require('passport-local-mongoose');
+var User = new Schema({});
+User.plugin(passportLocalMongoose);
+module.exports = mongoose.model('User', User);
+
+
+// requires the model with Passport-Local Mongoose plugged in
+var User = require('./models/user');
+// use static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
