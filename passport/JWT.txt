@@ -1,6 +1,13 @@
 npm instal jsonwebtoken --save
 npm install passport-jwt --save
 ____________________________________________
+web token of my user for postman
+manish
+jwt
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjRmOGViZTE1MzllMzFlMmNkNzViN2QiLCJpYXQiOjE1MzE5NDA1ODcsImV4cCI6MTUzMTk0NDE4N30.tZjPggVe6QNIZZNp5pt9p05pmpVgEUlm0GKNxj70kvg
+___________________________________________
+When the authenticate.verifyUser is used and is successful the req.user gets available for use and thereafter we can use the details of the user as specified in its schema to know the extent of info that can be displayed to it
+__________________________________________
 Cookies + Session Based Auth
 
 Cookies are set on the client side by the server
