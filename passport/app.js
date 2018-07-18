@@ -8,6 +8,7 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var passport = require('passport');
 var authenticate = require('./authenticate');
+var config = require('./config');
 
 
 var indexRouter = require('./routes/index');
@@ -24,7 +25,8 @@ const Promotions = require('./models/promotions');
 const Leaders = require('./models/leaders');
 
 //Connecting to the MongoDB server with DB named conFusion
-const url = 'mongodb://localhost:27017/conFusion';
+//The URL is extracted from the config file
+const url = config.mongoUrl;
 const connect = mongoose.connect(url, {
   //useMongoClient: true
 });
@@ -49,39 +51,14 @@ app.use(express.urlencoded({ extended: false }));
 //We will be using signed cookie with the secret key as 12345-67890-09876-54321
 //app.use(cookieParser('12345-67890-09876-54321'));
 //Setting up the session
-app.use(session({
-  name: 'session-id',
-  secret: '12345-67890-09876-54321',
-  saveUninitialized: false,
-  resave: false,
-  store: new FileStore()
-}));
+
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 //Both are files present inside the routes
 //users is to handle login sign up and logout 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-//This is added to provide authorization
-function auth(req, res, next){
-
-  //user is a property we will setup in the signed cookie
-  if(!req.user){
-    //It means that the user is not authenticated, this will be managed in login/signup page
-      var err = new Error('You are not authenticated !');
-      err.status=403;
-      return next(err);
-    }
-  else{
-      next();
-  }
-}
-
-app.use(auth);
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 

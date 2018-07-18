@@ -2,6 +2,11 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('./models/user');
+var JwtStrategy = require('passport-jwt').Strategy;
+var ExtractJwt = require('passport-jwt').ExtractJwt;
+var jwt = require('jsonwebtoken');
+
+var config = require('./config');
 
 //Configuring Passport with the new local strategy and then we export it
 //Using the below, the user will have to supply the username & password as a JSON in the body of the message
@@ -11,3 +16,32 @@ exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+exports.getToken = function(user){
+    //Creates and returns a JWT
+    return jwt.sign(user, config.secretKey, 
+        {expiresIn:3600});
+        //States that the token expires in 3600 sec
+};
+
+var opts= {};
+//Tells how and from where the token will be extracted
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = config.secretKey;
+
+exports.jwtPassport = passport.use(new JwtStrategy(opts, 
+    (jwt_payload, done) =>{
+        console.log("JWT payload: ", jwt_payload);
+        User.findOne({_id: jwt_payload._id},(err,user) =>{
+            if(err){
+                return done(err, false);
+            }
+            else if(user){
+                return done(null, user);
+            }
+            else{
+                return done(null, false);
+            }
+        })
+    }));
+
+exports.verifyUser = passport.authenticate('jwt', {session: false});    
