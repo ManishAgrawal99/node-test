@@ -1,0 +1,87 @@
+npm instal jsonwebtoken --save
+npm install passport-jwt --save
+____________________________________________
+web token of my user for postman
+manish
+jwt
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjRmOGViZTE1MzllMzFlMmNkNzViN2QiLCJpYXQiOjE1MzE5NDU3MDQsImV4cCI6MTUzMTk0OTMwNH0.EJ78mYZvA-tYU6qhbKbkR_9KGSFeMmv272dl4OoHoFE
+___________________________________________
+When the authenticate.verifyUser is used and is successful the req.user gets available for use and thereafter we can use the details of the user as specified in its schema to know the extent of info that can be displayed to it
+__________________________________________
+Cookies + Session Based Auth
+
+Cookies are set on the client side by the server
+It is used as a storage for session Id which is used as an index into server side storage of session information
+It is used to retrieve the session info for that particular client
+
+Cookies are included in every outgoing request
+
+This approach is not very scalable
+The fact that we need to track all of these information makes it not scalable
+
+
+Session based auth works perfectly fine for web app and can take care of user auth
+It is based on the concept of stateless servers and leads to scalability problems
+
+Also mobile applications do not handle session based auth very well
+They are not very well with cookies
+So if the server is serving a mobile app, this approach will not be very useful
+And token based auth comes into picture
+
+_________________________________________________________
+Token Based Auth
+
+The server will issue a token to a validated user and all subsequent requests coming from client side will bear the token in the request itself either in the form of a request header or in the body of the request message
+
+It also helps us deal with CORS(Cross Origin Resource Sharing) or CSRF(Cross Site request forgery) problems
+
+It also makes it easier for one application to share its auth with another application
+_________________________-
+
+Working
+_______
+The user needs to first validate himself on the server side using username or password(local auth) or by using tech like OAuth or OAuth 2.0 or openID
+
+Right after the server will issue a token to the user
+
+All subsequent comm b/w the user and the server can be done ny simply using this token(JSON Web Token)
+The server when creates these, will create a signed token,
+using a secret on the server side, which only the server knows,
+So even if a third party tries to intrude, or tries to manipulate the token, it will become invlaid
+
+When the server receives the token it ensures if the token is valid and then if it is valid, it responds to the incoming requests
+
+______________________________________
+It is a very simple way of encoding the info in the token and then pass it on to the client side
+
+JSON web tokens itself is based on standards of IETF(Internet Engineering Task Force)
+
+JSON web tokens itself carries all the info that is required to identify the user
+
+It can also be shared b/w 2 applications
+So if a application has an authorized token, it can have that token passed onto another app and can authorize that application on the users behalf
+
+This sharing is done in a very secure manner
+
+_______________________________________
+What is in a token?
+
+The token itself is encoded into a long string
+This string can be said to be consisting of 3 parts
+Header(algo used for encoding the token and the type of token), PayLoad(Info to help identify the user), Signature(Info on how the string is encoded)
+
+
+Header
+{
+	"alg":"HS256",
+	"typ":"JWT"
+}
+HS256- Hashing 256 bit encoding
+
+PayLoad
+{
+	"_id":"59ca3456..............",
+	"iat":........,
+	"exp":........
+}
+The id can be used to index in mongoDB to retrieve the full user info if required
