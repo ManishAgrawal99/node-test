@@ -1,0 +1,70 @@
+We may want an unauthenticated person to only perform a GET operation since we might not want an unauthenticated person to delete or edit the dishes or items we add
+
+We might want the users to save certain dishes as their favourite dishes and only they can manipulate their own list of favourites
+
+So we are wanting certain security in our websites
+
+________________________________________________________
+
+HTTP basic authentication
+
+Method for HTTP user agent to provide username and password with a request
+Server can challenge a client to authenticate itself
+
+Client needs to send username and password in response
+
+Server challenges the client by sending a reply with header type as WWW-authenticate:BASIC and a 401 header code
+
+BASIC is the type of authentication
+
+The client then sends in the username and password which is given by the word Basic and then the username and password is encoded in a base 64 encoded string
+
+________________________________________________________
+
+The authorization header consists of the following
+
+Username and pass combined into a string
+"username:password"
+the resulting string literal is then encoded using Base64
+The authorization method and a space ie Basic encodedString
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
