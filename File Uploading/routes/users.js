@@ -4,11 +4,15 @@ var User = require('../models/user');
 var passport = require('passport');
 var authenticate = require('../authenticate');
 
+const cors = require('./cors');
+
 var router = express.Router();
 router.use(bodyParser.json());
 
+
+
 /* GET users listing. */
-router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req, res, next) {
+router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, function(req, res, next) {
 
   //Here we are expecting to get all the users, so we need to find all the users in DB
 	User.find({})
@@ -25,7 +29,7 @@ router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req,
 	})
 });
 
-router.post('/signup', (req, res, next) =>{
+router.post('/signup',cors.corsWithOptions, (req, res, next) =>{
   //If the provided username in the body already exists
   User.register(new User({username: req.body.username}),
     req.body.password, (err, user) =>{
@@ -59,7 +63,7 @@ router.post('/signup', (req, res, next) =>{
   });
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
+router.post('/login', cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
   //Creating a token using the authenticate file and sending in the user id from the req header as param
   //The req.user will be already available because the passport.authenticate('local') is successfully
   //done and this loads up the user property on the req message
