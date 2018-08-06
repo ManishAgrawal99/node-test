@@ -1,0 +1,25 @@
+It is a tool that gives us a startup application with some starting code already built and some standard middleware included into the application to reduce the work
+
+_________________________________________________________
+In order to use it
+We need to install the express generator as a global NPM module from the command line
+npm install express-generator -g
+
+__________________________________________________________
+
+Once we have installed the global API module 
+we just need to type express <Name of application>
+
+This will generate a folder with the name of application typed in
+It can have a variety of options like 
+different kinds of view generators like JADE EJS and more
+
+After this we need to move into this folder and do the npm install for all for all the npm modules we added in the express application
+npm install
+npm install body-parser --save
+
+
+
+
+
+

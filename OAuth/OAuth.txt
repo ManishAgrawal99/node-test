@@ -1,0 +1,71 @@
+Wil make use of the passport-FB-Token Module
+npm install passport-facebook-token --save
+__________________________________________
+Types of OAuth
+OAuth 1
+OAuth 2
+
+Google & FB uses OAuth 2
+
+___________________________________________
+
+Roles of OAuth 2
+
+Resource Owner
+--------------
+The Resource in this case is the identity of the user
+The servers that we build wants to have access to these resources
+These resources are present with the social media authentication service providers like FB Google and so on
+
+
+If the profile info is stored with the FB for example, then our server may want to access these info and verify if that is really the user trying to access the express server
+
+
+Client Application
+------------------
+So, our server here acts as the client application
+These authentication service providers may not want to provide access to any random server
+It may want to provide these to only an authenticated server
+So, our server must register itself with the FB with an account sayin that it is operating an app and it wants to register itself as a potential source which can approach FB to authenticate users
+
+After registering, it will receive a ClientID and a Client Secret from FB
+To do this, we must have an authenticated account on FB
+
+So, in order to get the resources, we must connect to the FB OAuth 2 authentication server and the server that gives access to the profile info of the user
+
+Authorization server
+--------------------
+It is the server that authorizes somebody to access the resource server in order to retrieve the profile info
+
+Now, the user must authorize the express server, to go to the resource server to fetch the profile info.
+But, if the user needs to authorize the express server, the user needs to login to the FB account and then obtain info from FB called as an access token which the user will pass onto the express server
+
+When the token is received from FB OAuth 2, it is issued on terms of llowing the clien application or the Express server which is already registered on FB to access their profile info from their FB Oauth service provider
+
+Now, for the user to access a token, it has to login into the FB stating that it needs to login to authenticate this express server.
+For this, it sends a Client ID of the express server embedded in it
+
+The Client secret that it gains is not revealed to anybody.
+It will be only in the express server side
+But when the express server tries to authenticate to access the user's profile from FB, the express server will send, both the client ID and the client secret along with the access token that the user supplies the express server to FB
+
+In turn, the FB authorizes the client server to access the users profile 
+
+Now, the express serever wil create an account for this particular user who has logged in from FB and then subsequently supply a JWT which the user can then use to access the data in the express server
+
+In addition to these, there is also a refresh token.
+When an access token is issued by the FB OAuth 2 server, access token has a limited lifetime. After that the access token will become invalid.
+So, this token needs to be made confidential
+So, al these exchanges of tokens b/w different sites will be done in an encrypted meethod using HTTPS protocol.
+
+So, when sending the access token from user to Express server, it must be done in an HTTPS manner.
+
+If anybody gets access to the access token can act as that user
+
+These refresh tokens are used to refresh an expired access token
+
+_______________________________________
+
+Registering on the OAuth server
+
+We also need to register a redirect URL while registering the client application

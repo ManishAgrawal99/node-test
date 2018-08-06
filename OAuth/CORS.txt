@@ -1,0 +1,99 @@
+Middleware  to include for these
+
+npm install cors --save
+
+CORS NodeModule
+It allows to configure CORS on the server side including specifying credentials origin info where the credentials would be accepted
+__________________________________
+Need for it
+______________________
+Many applications pull data from many different websites to construct a webpage
+In order to impose a strict policy of access to resources from different websites, The same origin policy has been accepted
+
+The JS codes we have may have to access resources from different sites and this is where CORS problem comes up
+
+_________________________
+
+The Same Origin Policy declares how the data loaded from one origin will interact with resources from another origin
+The purpose is to prevent malicious interactions of code
+___________________________
+
+What is same origin
+
+It is defined by three tuples
+-protocol, host name, port number
+
+The data resource can be anything from a web page, image and json
+
+____________________________
+
+Cross Origin Requests
+
+Accessing a resource from a different domain, protocol or port
+
+How to solve the issue
+
+Browsers restrict the cross origin request initiated from within scripts.
+eg. XMLHttpRequest or Fetch
+
+______________________________
+
+Cross Origin  Resource Sharing
+
+Mechanism to give web servers cross domain access controls
+
+Browser and server interact to determine whether it is safe or not and if the access to the resource is an acceptable situation
+
+A new set of HTTP headers were included into the HTTP reply messages coming from the server side
+These headers give a set of resources that are permitted by the server to access the browser
+
+The browser then realizes that the access to that resources are permittable even though they are not allowed
+
+So, we have headers like
+Access Control Allow Origin,
+Access Control Allow Credentials,
+Access Control Allow Headers,
+Access Control Allow Methods
+
+that tells the browser that this is an acceptable state
+
+____________________________
+
+Types
+
+Simple Cross Site Requests
+
+Get/Post with req body containing application/x-www-form-urlencoded, multipart/form-data or text/plain
+
+No custom header is allowed in this case
+
+
+Preflighted Requests
+Methods that can cause side effects on servers data
+specially PUT and DELETE
+
+Credentialed Requests
+When we expect the clients to include credentials in the header
+eg. requests accompanied by cookies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

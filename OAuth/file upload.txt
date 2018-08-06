@@ -1,0 +1,5 @@
+The file uploading requires multer module for its work
+The multer in turn is written on 
+
+________________________________________
+npm install multer --save
